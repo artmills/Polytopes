@@ -315,18 +315,74 @@ Let $M\subset\R^n$ be an $n$-dimensional convex polytope in $\R^n$.
 Once again, let $p\in\R^n$ be a point in the interior of $M$ and $x\in\R^n$ be exterior to $M$.
 Search for a point $q\in \partial M$ along the line segment containing $p$ and $x$.
 
-Assume that $q$ lies in the interior of a (top-dimension) facet $F$ of $M$, and that all points within an $\epsilon$ ball of $x$ lie in the domain of $F$.
+Assume that $q$ lies in the interior of a (top-dimension) facet $F$ of $M$, and that all points within an $\epsilon$-ball of $x$ lie in the domain of $F$.
 If $N=(N_1,\dots, N_n)$ is a normal vector to $F$ pointing to the exterior of $M$, then the distance from $x$ to $F$ is given by 
-\[\F(x) = \bigabs{\frac{\ip{x-q,n}}{\ip{n,n}}n}.\]
-Writing $x=(x_1,\dots, x_n)$ and $q=(q_1,\dots, q_n)$, we have
-\[\F(x) = \frac{N_1(x_1-q_1)+\cdots+N_n(x_n-q_n)}{\sqrt{N_1^2+\cdots+N_n^2}}.\]
-By sampling $n$ points within an $\epsilon$ ball of $x$, we obtain $n$ equations in $n$ variables for a normal vector of $F$.
-This system is nonlinear in the components of the normal vector.
+\[\F(x) = \frac{\ip{x-q,N}}{\abs{N}}=\bigip{x-q,\frac{N}{\abs{N}}}.\]
+Note that our choice of $x$ on the exterior of $M$ ensures that this distance is positive.
 
-A possible alternative interpretation of this system is a linear system of $n$ equations consisting of the numerators of the above function, in addition to the nonlinear constraint 
-\[N_1^2+\cdots+N_n^2=1.\]
+Since all points in an $\epsilon$-neighborhood of $x$ lie within the domain of $F$, we can choose $n$ samples $\set{x_i}_{i=1}^n$ in this neighborhood whose distance to $F$ is given by 
+\[\F(x_i) = \frac{\ip{x_i-q,N}}{\abs{N}}=\bigip{x_i-q,\frac{N}{\abs{N}}}.\]
+We then have a linear system of $n$ equations in the $n$ unknown components of the unit normal vector $\frac{N}{\abs{N}}$ to the facet $F$.
+Under the assumption that all points lie in the domain of $F$, the solution exists and is unique.
+(A simple numerical experiment indicates that a solution for the \textit{unit} normal vector is readily found using samples chosen from a uniform distribution on an $\epsilon$-sphere surrounding $x$.
+See \textit{experiment.py}.)
 
+In the case that some of the samples $x_i$ are contained in the domains of different faces of $M$, the linear system will not have a unique solution.
+Our original proposal to fix this issue is to simply choose the hyperplane containing $q$ that is orthogonal to the line from $p$ to $x$.
+Unfortunately this technique does not always work, as shown by the figure below.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{vertex_issue.png}
+	\caption{The dotted purple line is the chosen hyperplane at a vertex.
+		Left: The orthogonal hyperplane is valid.
+		Right: The orthogonal hyperplane is invalid.}
+\end{figure}
+We may solve this issue by changing the sampling strategy.
+Rather than selecting random samples from an $\epsilon$-ball surrounding $x$, we pick samples along the line segment from $q$ to $x$ that are within $\epsilon$ of $q$.
 
+Consider a ray $\ell$ emanating from a point $q$ of a face $F$ (of any dimension) of $M$.
+There exists a neighborhood $U$ of $q$ on $\ell$ such that all points of $U$ are contained in the domain of the same face $F'$ of $M$.
+The common face $F'$ is either equal to $F$ or is an adjacent face to $F$, as shown below.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{ray_domain.png}
+	\caption{Light blue: a ray that has a neighborhood contained in the original face domain.
+	Red: a ray that has a neighborhood contained in an adjacent face domain.}
+\end{figure}
+
+We may use this fact to obtain a linear system of equations with a unique solution for any face $F$.
+We still assume that we have a line segment from an interior point $p$ to an exterior point $x$, passing through a point $q\in\partial M$.
+Let $U$ be the neighborhood of $q$ along the segment from $q$ to $x$ for which $U$ is in the domain of some face $F$ containing $q$.
+Sample $n$ points $\set{x_i}_{i=1}^n$ in $U$, which all project to $F$ under the oracle.
+
+Note that $F$ may not be a facet and so may not have a notion of normal vector, such as in the case of a vertex of a $2$-polytope.
+However (needs proof for higher dimensions!) the distance function $\F$ of $U$ onto $F$ is equivalent to the orthogonal projection of $U$ onto some hyperplane containing $F$.
+The unit normal of the hyperplane is directed into the domain of $F$ and so $M$ lies on the negative side of the hyperplane.
+Therefore this hyperplane is a valid choice for generating a face of $Q_i$.
+The figures below illustrate the choice of the hyperplane in $\R^2$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{vertex_fix.png}
+	\caption{A common normal vector associated to a hyperplane containing a vertex.}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{facet_fix.png}
+	\caption{A common normal vector associated to a hyperplane containing a hyperplane: results are consistent with the original algorithm for a facet.}
+\end{figure}
+
+The weakness of this strategy is the unknown neighborhood $U$.
+Even with the assumption that $\epsilon$ is the minimum tolerance, the size of $U$ depends on the positions of $p$ and $x$.
+In the figure below, the neighborhood $U$ may be very small in relation to the size of a face.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.3\textwidth]{epsilon_weakness.png}
+\end{figure}
+It is possible that this issue arises when $p$ is ``too close'' to a face.
+One solution might be to more intelligently choose $p$ to be further in the interior of $M$, but it is unclear how this can be done.
+Alternatively, we can reselect the point $x$ in some fashion.
+However, this method fails in further iterations of the algorithm, when $x$ is a vertex of $Q_i$ and so cannot be reselected.
 
 
 
