@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Arch Linux) (preloaded format=pdflatex 2023.4.3)  23 MAY 2023 11:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Arch Linux) (preloaded format=pdflatex 2023.4.3)  31 MAY 2023 13:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -363,20 +363,43 @@ File: epsilon_weakness.png Graphic file (type png)
 <use epsilon_weakness.png>
 Package pdftex.def Info: epsilon_weakness.png  used on input line 380.
 (pdftex.def)             Requested size: 154.94331pt x 119.14496pt.
- [13 <./vertex_fix.png (PNG copy)> <./facet_fix.png (PNG copy)> <./epsilon_weakness.png (PNG copy)>] [14] (./2polytopes.aux) ) 
+ [13 <./vertex_fix.png (PNG copy)> <./facet_fix.png (PNG copy)> <./epsilon_weakness.png (PNG copy)>] [14]
+<single_box.png, id=81, 363.60844pt x 356.0803pt>
+File: single_box.png Graphic file (type png)
+<use single_box.png>
+Package pdftex.def Info: single_box.png  used on input line 408.
+(pdftex.def)             Requested size: 258.23624pt x 252.89485pt.
+<disjoint_boxes.png, id=82, 306.39468pt x 395.97937pt>
+File: disjoint_boxes.png Graphic file (type png)
+<use disjoint_boxes.png>
+Package pdftex.def Info: disjoint_boxes.png  used on input line 419.
+(pdftex.def)             Requested size: 154.94331pt x 200.24292pt.
+ [15 <./single_box.png (PNG copy)>]
+<single_interior.png, id=86, 813.0375pt x 326.72063pt>
+File: single_interior.png Graphic file (type png)
+<use single_interior.png>
+Package pdftex.def Info: single_interior.png  used on input line 447.
+(pdftex.def)             Requested size: 309.88664pt x 124.52902pt.
+ [16 <./disjoint_boxes.png (PNG copy)>]
+<connected_component.png, id=90, 423.83344pt x 301.8778pt>
+File: connected_component.png Graphic file (type png)
+<use connected_component.png>
+Package pdftex.def Info: connected_component.png  used on input line 464.
+(pdftex.def)             Requested size: 258.23624pt x 183.9379pt.
+ [17 <./single_interior.png (PNG copy)> <./connected_component.png (PNG copy)>] [18] (./2polytopes.aux) ) 
 Here is how much of TeX's memory you used:
- 4490 strings out of 476025
- 69241 string characters out of 5796533
+ 4519 strings out of 476025
+ 69891 string characters out of 5796533
  1858388 words of memory out of 5000000
- 24872 multiletter control sequences out of 15000+600000
+ 24897 multiletter control sequences out of 15000+600000
  519734 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,9n,76p,521b,317s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/euler/eusm10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on 2polytopes.pdf (14 pages, 840899 bytes).
+Output written on 2polytopes.pdf (18 pages, 917013 bytes).
 PDF statistics:
- 141 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
+ 157 PDF objects out of 1000 (max. 8388607)
+ 84 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 121 words of extra memory for PDF output out of 10000 (max. 10000000)
 

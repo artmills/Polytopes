@@ -385,12 +385,96 @@ Alternatively, we can reselect the point $x$ in some fashion.
 However, this method fails in further iterations of the algorithm, when $x$ is a vertex of $Q_i$ and so cannot be reselected.
 
 
+\newpage
+\section{Multiple Polytopes: Axis-Aligned Boxes}
+
+We will now consider the case of multiple convex polytopes $M_1,\dots, M_k$ in $\R^n$.
+We will assume that each polytope is an axis-aligned box.
+That is, each of the $2n$ facets of $M_i$ is orthogonal to one of the coordinate axes.
+Our goal is to identify the union 
+\[M = \bigcup_{i=1}^k M_i\]
+of axis-aligned boxes.
+Note that the union may not be disjoint, so a connected component of $M$ may not be an axis-aligned box.
+
+For a single axis-aligned box $M$, the algorithm from the previous section can be greatly simplified.
+The goal of the algorithm seeks to identify the hyperplanes that correspond to each facet of a polytope, but the hyperplanes of an axis-aligned box are already known.
+Instead, we simply need to determine where these hyperplanes sit in space.
+Suppose that we have a point $p\in \interior(M)$ that we set to be the origin.
+Let $x_i\in\R^n$ be a point along the $e_i$-axis such that $\F(x)>0$ and let
+\[r_i = d(x_i, p) - \F(x_i).\]
+Then a facet of $M$ is contained in the hyperplane whose unit normal vector is $e_i$ and passes through the point $q_i$ whose $i$th coordinate is $r_i$ and all others are zero.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{single_box.png}
+\end{figure}
+Repeating this process for the $2n$ signed coordinate directions produces the polytope.
 
 
+\subsection{Disjoint Unions}
 
+We will first consider the case of a disjoint union of axis-aligned boxes $\set{M_i}_{i=1}^k$.
+It is no longer guaranteed that a point $x\in\R^n$ on one of the coordinate axes lies within the domain of a facet of a polytope that contains the origin.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.3\textwidth]{disjoint_boxes.png}
+\end{figure}
+In fact, the domain structure of the exterior of $M$ becomes very complicated. 
+However, each individual axis-aligned box $M_i$ has a simple interior domain structure.
+Our general approach to the union problem will then be opposite to our exterior-based approach to the arbitrary convex polytope case.
 
+Consider $x\in\interior(M_i)$.
+Note that the circle $S_x$ centered at $x$ whose radius is $\abs{\F(x)}$ cannot contain a vertex of $M_i$.
+This fact holds for circles inscribed in general convex polytopes, but here we can make greater use of this fact since we know the hyperplanes of our axis-aligned boxes.
 
+We will first illustrate the technique for a single polytope $M_i$.
+Suppose that we have a point $p\in\interior(M_i)$ and consider the circle $S_p$.
+Since $M_i$ is an axis-aligned box, $S_p$ intersects $M_i$ in at most $2n$ points which lie on rays emanating from $p$ parallel to the signed coordinate axes.
+So consider the points
+\[\set{p \pm \F(p)e_j \st j = 1,\dots, n}.\]
+By definition of the oracle, one of these points lies on $M_i$.
+We may simply test these points using the oracle to find a point on $M_i$.
+If we find that
+\[\F(p\pm\F(p)e_j)=0\]
+using the oracle, then we know that the $\pm e_j$-hyperplane of $M_i$ passes through the point $p\pm\F(p)e_j$.
+In \textbf{Figure}
 
+Once a facet has been found, the others may be found by walking along the signed coordinate directions from $p$ and applying the same algorithm until a new facet is found.
+Note that while there were $2n$ directions to check from $p$, there are $2n-2$ directions to check after one facet is found:
+if the next point is obtained from $p$ by moving in the $e_\ell$ direction, then there is no reason to check the $-e_\ell$ direction, and the $\pm e_j$ direction is ignored since that hyperplane was found on the previous iteration.
+The figure below shows the first two iterations for a 2-polytope.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{single_interior.png}
+	\caption{Left: The first iteration using an interior point $p$.
+		The four ``compass directions'' are tested, with the leftmost point being found to be on the boundary.
+		Right: The second iteration, choosing to use the point $p_1$ above $p$.
+	Note that only two points on $S_{p_1}$ are being checked.}
+\end{figure}
+
+Note that it is important that the sample points lie within a polytope.
+If a sample is found to be outside, it may lie in the domain of another polytope.
+A search function may then be used to find another point within the polytope so that the algorithm may be applied correctly.
+
+\subsection{Non-Disjoint Unions}
+
+The procedure for a non-disjoint union is precisely the same as in the disjoint union case.
+The only difference is that for a point $p$ in the interior of a connected component $P_i$ of $M$, $p$ may now lie in the domain of a vertex.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{connected_component.png}
+\end{figure}
+When this occurs, it is possible that none of the sample points along the signed coordinate directions on $S_p$ will lie on $P_i$.
+However, the rest of the procedure may continue as normal.
+
+Questions:
+\begin{itemize}
+	\item How do we find a point $p$ in the interior of a connected component of $M$?
+		Is it worth sampling an entire disk of $\R^n$ containing the origin to find these points?
+	\item Once a single connected component is identified, what is the best way to find the others?
+	\item What is the worst-case scenario for a union of boxes?
+		Some sort of ''devil's staircase''-like construction such that sample points lie within the domains of vertices and fail to reach the edges?
+	\item What is the most effective way to ``walk around'' in the interior of a polytope?
+\end{itemize}
 
 
 
